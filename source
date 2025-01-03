@@ -161,13 +161,13 @@ end
 function placeUI(gui)
 	if get_hidden_gui or gethui then
 		local hiddenUI = get_hidden_gui or gethui
-		Main.Parent = hiddenUI()
+		gui.Parent = hiddenUI()
 	elseif (syn and syn.protect_gui) then
 		syn.protect_gui(Main)
-		Main.Parent = COREGUI
+		gui.Parent = COREGUI
 	else
 		BasicProtectGui.protect(Main)
-		Main.Parent = COREGUI
+		gui.Parent = COREGUI
 	end
 end
 

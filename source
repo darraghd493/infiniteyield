@@ -5,6 +5,8 @@ end
 
 pcall(function() getgenv().IY_LOADED = true end)
 
+local BasicProtectGui = loadstring(game:HttpGet("https://pastebin.com/raw/QkvCpyKq", true))()
+
 local cloneref = cloneref or function(o) return o end
 COREGUI = cloneref(game:GetService("CoreGui"))
 Players = cloneref(game:GetService("Players"))
@@ -156,20 +158,23 @@ function randomString()
 	return table.concat(array)
 end
 
+function placeUI(gui)
+	if get_hidden_gui or gethui then
+		local hiddenUI = get_hidden_gui or gethui
+		Main.Parent = hiddenUI()
+	elseif (syn and syn.protect_gui) then
+		syn.protect_gui(Main)
+		Main.Parent = COREGUI
+	else
+		BasicProtectGui.protect(Main)
+		Main.Parent = COREGUI
+	end
+end
+
 local Main = Instance.new("ScreenGui")
 Main.Name = randomString()
-if get_hidden_gui or gethui then
-	local hiddenUI = get_hidden_gui or gethui
-	Main.Parent = hiddenUI()
-elseif (syn and syn.protect_gui) then
-	syn.protect_gui(Main)
-	Main.Parent = COREGUI
-else
-	local BasicProtectGui = loadstring(game:HttpGet("https://pastebin.com/raw/QkvCpyKq", true))()
-	BasicProtectGui.protect(Main)
-	Main.Parent = COREGUI
-end
-PARENT = MAIN
+placeUI(Main)
+PARENT = Main
 
 shade1 = {}
 shade2 = {}
@@ -5530,7 +5535,7 @@ function ESP(plr)
 		if plr.Character and plr.Name ~= Players.LocalPlayer.Name and not COREGUI:FindFirstChild(plr.Name..'_ESP') then
 			local ESPholder = Instance.new("Folder")
 			ESPholder.Name = plr.Name..'_ESP'
-			ESPholder.Parent = COREGUI
+			placeUI(ESPholder)
 			repeat wait(1) until plr.Character and getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
 			for b,n in pairs (plr.Character:GetChildren()) do
 				if (n:IsA("BasePart")) then
@@ -5622,7 +5627,7 @@ function CHMS(plr)
 		if plr.Character and plr.Name ~= Players.LocalPlayer.Name and not COREGUI:FindFirstChild(plr.Name..'_CHMS') then
 			local ESPholder = Instance.new("Folder")
 			ESPholder.Name = plr.Name..'_CHMS'
-			ESPholder.Parent = COREGUI
+			placeUI(ESPholder)
 			repeat wait(1) until plr.Character and getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
 			for b,n in pairs (plr.Character:GetChildren()) do
 				if (n:IsA("BasePart")) then
@@ -5683,7 +5688,7 @@ function Locate(plr)
 		if plr.Character and plr.Name ~= Players.LocalPlayer.Name and not COREGUI:FindFirstChild(plr.Name..'_LC') then
 			local ESPholder = Instance.new("Folder")
 			ESPholder.Name = plr.Name..'_LC'
-			ESPholder.Parent = COREGUI
+			placeUI(ESPholder)
 			repeat wait(1) until plr.Character and getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
 			for b,n in pairs (plr.Character:GetChildren()) do
 				if (n:IsA("BasePart")) then
